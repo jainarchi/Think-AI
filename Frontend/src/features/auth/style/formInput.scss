@@ -1,0 +1,67 @@
+@use '../../../app/style/variables.scss' as *;
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $spacing-md;
+  width: 100%;
+
+  .form-label {
+    font-size: $font-sm;
+    font-weight: 600;
+    color: #c8d8d5;
+    margin-bottom: $spacing-sm;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+
+    .required-asterisk {
+      color: #ff7b7b;
+      font-weight: bold;
+    }
+  }
+
+  .form-input {
+    padding: $spacing-sm;
+    font-size: $font-base;
+    border: 1px solid rgba(0, 168, 157, 0.2);
+    border-radius: $radius-md;
+    background-color: rgba(5, 15, 14, 0.6);
+    color: #e0e0e0;
+    transition: all $transition-normal;
+    outline: none;
+
+    &::placeholder {
+      color: #7a9b98;
+    }
+
+    &:focus {
+      border-color: #06d6a0;
+      box-shadow: 0 0 0 3px rgba(6, 214, 160, 0.15);
+      background-color: rgba(5, 15, 14, 0.8);
+    }
+
+    &:hover {
+      border-color: #00a89d;
+      background-color: rgba(5, 15, 14, 0.7);
+    }
+
+    &.input-error {
+         border-color: #06d6ba;
+       
+      &:focus {
+        border-color: #06d6a0;
+        box-shadow: 0 0 0 3px rgba(255, 123, 123, 0.2);
+        background-color: rgba(5, 15, 14, 0.8);
+      }
+    }
+  }
+
+  .error-message {
+    font-size: $font-xs;
+    color: #09ffca;
+    margin-top: $spacing-xs;
+    font-weight: 500;
+  }
+
+}
