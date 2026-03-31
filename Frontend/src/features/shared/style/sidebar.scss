@@ -1,0 +1,274 @@
+// Variables for consistency
+$bg-dark: #101010;
+$bg-surface: #1e1e1e;
+$aqua-blue: #02d8b5;
+$text-dim: #b3b3b3;
+// $transition: all 0.3s ease;
+
+.main-sidebar-close {
+  // transform: translateX(-100%);
+  // transition: $transition;
+  display: none;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: $bg-dark;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #054241;
+  transition: transform 0.3s ease;
+  z-index: 99;
+  position: relative;
+
+  .top {
+    min-height: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    .options,
+    .allChats {
+      padding: 0.6rem;
+
+      .chat-title,
+      a,
+      .menu-div {
+        border-radius: 0.5rem;
+        cursor: pointer;
+        color: $text-dim;
+
+        &:hover {
+          background-color: rgba($aqua-blue, 0.1);
+          color: $aqua-blue;
+        }
+      }
+    }
+
+    .options {
+      a,
+      .menu-div {
+        font-size: 0.98rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+    .hamburger {
+      left: 1rem;
+      cursor: pointer;
+    }
+
+    .allChats {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+
+      h5 {
+        border-top: 1px solid rgba(255, 255, 255, 0.169);
+        font-weight: 500;
+        color: $aqua-blue;
+        padding: 0.6rem;
+      }
+
+      .chat-titles {
+        overflow-y: auto;
+
+        .chat-title {
+          width: 100%;
+          font-size: 0.94rem;
+          white-space: nowrap;
+          border: none;
+          background: none;
+          font-size: 0.9rem;
+          padding-block: 0.5rem;
+          padding-inline: 0.2rem;
+          justify-content: space-between;
+
+          .title {
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            .editTitleInput {
+              background: transparent;
+              color: whitesmoke;
+
+              &:focus {
+                border: none;
+                outline: none;
+              }
+            }
+          }
+
+          .dot-icon {
+            .chat-option {
+              display: none;
+              position: absolute;
+              background: #222;
+              color: rgb(133, 133, 133);
+              border-radius: 8px;
+              padding: 6px;
+              z-index: 99;
+
+              div {
+                padding: 0.2rem;
+                display: flex;
+                gap: 0.6rem;
+                align-items: center;
+
+                &:hover {
+                  color: #00cfad;
+                }
+              }
+            }
+
+            .chat-option.show {
+              display: block;
+            }
+          }
+        }
+
+        &.chat-titles::-webkit-scrollbar {
+          width: 3px;
+        }
+
+        &.chat-titles::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        &.chat-titles::-webkit-scrollbar-thumb {
+          background-color: rgb(69, 69, 69);
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  .sidebar-footer {
+    padding: 0.5rem;
+    flex-shrink: 0;
+    // position: relative;
+
+    //  .profileDetails {
+    //     background: rgb(71, 70, 70);
+    //     border-radius: 0.4rem;
+    //     position: absolute;
+    //     top: -120%;
+    //     padding: 0.2rem ;
+
+    //     .profileInfo{
+    //       gap: 0.2rem;
+    //     }
+    //   }
+
+    .profileInfo {
+      padding: 0.3rem 0.5rem;
+      font-weight: 300;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
+
+// desktop  sidebar close view
+
+.desptop-sidebar-close-view {
+  width: 50px;
+  height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  align-items: center;
+  background: #1a1a1a;
+
+  .options,
+  .sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.5rem;
+  }
+  .options {
+    padding-top: 1.2rem;
+  }
+
+  a,
+  .hamburger {
+    color: $aqua-blue;
+
+    &:hover {
+      color: rgb(185, 185, 185);
+    }
+  }
+}
+
+.profile-icon {
+  border: 1px solid gray;
+  padding-block: 0.3rem 0.1rem;
+  padding-inline: 0.4rem;
+  border-radius: 50%;
+  background-color: $bg-surface;
+  border-radius: 2rem;
+  border: 1px solid rgba($aqua-blue, 0.2);
+  background-color: $bg-surface;
+  color: $aqua-blue;
+}
+
+.logout-icon {
+  padding-inline: 0.5rem;
+  color: $aqua-blue;
+}
+
+.sidebar-footer {
+  position: relative;
+
+  .profileDetails {
+    z-index: 99;
+    background: rgb(66, 64, 64);
+    border-radius: 0.4rem;
+    position: absolute;
+    top: -120%;
+    padding: 0.2rem;
+    display: none;
+
+    .profileInfo {
+      gap: 0.2rem;
+      display: flex;
+      font-size: 0.9rem;
+      color: rgb(214, 206, 206);
+      font-weight: 400;
+    }
+
+    &.display-block {
+      display: block;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .desptop-sidebar-close-view {
+    display: flex;
+  }
+
+  .static {
+    position: static;
+    // background: red;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0rem;
+    left: 0rem;
+    z-index: 99;
+  }
+}

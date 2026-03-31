@@ -1,0 +1,40 @@
+
+    .navbar {
+      height: 7%;
+      background: rgba(25, 24, 24, 0.582);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding-inline: 1rem;
+      position: relative;
+
+     .nav-left{
+      display: flex;
+      gap: 0.6rem;
+      position: absolute;
+
+
+      .nav-hamburger {
+         color: #00ffd4;
+         display: none;
+       }
+    
+
+      h3 {
+        color: #0cffd7;
+        font-weight: 500;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        
+      }
+       
+
+      }
+      
+       .nav-title{
+        width: 100%;
+        text-align: center;
+        color: rgb(171, 171, 171);
+        font-size: 0.94rem;
+      }
+    }
