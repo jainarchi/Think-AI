@@ -32,7 +32,7 @@ async function sendVerificationEmail(username , email) {
         <a href="http://localhost:3000/api/auth/verify-email?token=${token}">Verify Email</a>
         <p>If you did not create an account, please ignore this email.</p>
         <p>Best regards,</p>
-        <p>The InfraCore AI Team</p>
+        <p>The Infra AI Team</p>
         `,
   });
     
@@ -65,7 +65,7 @@ async function sendResetPasswordEmail(username, email) {
       <p>This link will expire in 15 minutes.</p>
       <p>If you did not request this, please ignore this email.</p>
 
-      <p>InfraCore AI Team</p>
+      <p>Infra AI Team</p>
     `
   });
 }

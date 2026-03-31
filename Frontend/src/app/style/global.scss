@@ -1,0 +1,111 @@
+@use './variables.scss' as *;
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(37, 36, 36);
+  color: $text-dark;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $secondary-color;
+  }
+}
+
+button {
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Remove default input styling */
+input[type='email'],
+input[type='password'],
+input[type='text'],
+textarea {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-light;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-color;
+  border-radius: 4px;
+
+  &:hover {
+    background: $secondary-color;
+  }
+}
+
+/* Selection Styling */
+::selection {
+  background-color: $primary-color;
+  color: $text-light;
+}
+
+::-moz-selection {
+  background-color: $primary-color;
+  color: $text-light;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+
+
+
+.flex{
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+
+}
+
+.loading{
+  color: aquamarine;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  
+}
