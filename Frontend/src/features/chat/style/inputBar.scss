@@ -1,0 +1,72 @@
+.inputBar {
+  position: absolute;
+  width: 100%;
+  bottom: 0rem;
+  padding-block: 0.8rem 2rem;
+  background: #2f3030;
+  padding-inline: 0.5rem;
+
+
+  .input-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 0.6rem;
+    border-radius: 1.4rem;
+    background: rgb(0, 0, 0);
+    position: relative;
+
+    .inputOption {
+      position: absolute;
+      top: -2.4rem;
+      left: -0.2rem;
+      background: #212221;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      display: none;
+
+      div {
+        padding: 0.4rem 0.8rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      &.show {
+        display: block;
+      }
+    }
+
+    .input {
+      padding: 0.1rem 1rem;
+      width: 90%;
+      font-size: 1rem;
+      background: transparent;
+      border: none;
+      color: whitesmoke;
+
+      resize: none;
+      overflow-y: auto;
+      max-height: calc(1.5em * 5); // max 3 lines 
+      line-height: 1.5em;
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+
+    .sendIcon {
+      padding-inline: 0.6rem;
+      padding-block: 0.4rem;
+      border-radius: 1rem;
+      background: #303231;
+      color: aquamarine;
+      border: none;
+      align-self: flex-end;
+    }
+  }
+}
