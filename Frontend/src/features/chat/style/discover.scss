@@ -1,0 +1,221 @@
+$bg-black: #080808;
+$card-bg: #121212;
+$neon-cyan: #00ccad;
+$text-white: #ffffff;
+$text-dim: #c7c7c7;
+$text-dim2: #aaa8a8;
+$border-color: rgba(255, 255, 255, 0.05);
+
+.discover-container {
+  padding: 1rem;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  color: $text-white;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+
+  .heading {
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: $neon-cyan;
+    padding-bottom: 0.5rem;
+  }
+
+  .explore-header {
+    padding-block: 1rem 1.6rem;
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 8px;
+
+      .header-icon {
+        color: $neon-cyan;
+        filter: drop-shadow(0 0 8px rgba($neon-cyan, 0.4));
+      }
+      h1 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        letter-spacing: -1px;
+      }
+    }
+
+    .subtitle {
+      color: $text-dim2;
+      font-size: 0.95rem;
+    }
+  }
+
+  .userSaved {
+    padding-block: 2rem;
+
+    .saved-prompts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 15px;
+
+      .no-saved {
+        text-align: center;
+        color: $text-dim2;
+        font-size: 0.9rem;
+      }
+    }
+
+    .saved-card {
+      background: rgba($card-bg, 0.5);
+      border: 1px dashed rgba($text-dim, 0.3);
+      padding: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &:hover {
+        background: $card-bg;
+        border-style: solid;
+        border-color: rgba($neon-cyan, 0.5);
+        transform: translateY(-1px);
+
+        .card-title {
+          color: $neon-cyan;
+        }
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .title-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          .bookmark-icon {
+            color: $neon-cyan;
+            opacity: 0.8;
+          }
+          .card-title {
+            // font-weight: 600;
+            font-size: 0.8rem;
+            color: $text-dim2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+          }
+        }
+
+        .delete-icon {
+          color: $text-dim2;
+          transition: color 0.2s;
+          &:hover {
+            color: #ff4d4d;
+          }
+        }
+      }
+
+      .card-desc {
+        font-size: 0.9rem;
+        color: $text-dim;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+  }
+
+  //   power prompts section style
+
+  .discovery-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 1rem;
+  }
+
+  .module-section {
+    .module-label {
+      font-size: 0.7rem;
+      color: $neon-cyan;
+      letter-spacing: 2.5px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.7;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+  }
+
+  .module-pill {
+    background: $card-bg;
+    border: 1px solid $border-color;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .pill-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      .pill-icon {
+        color: #333;
+        transition: color 0.2s;
+      }
+    }
+
+    .plus-icon {
+      opacity: 0;
+      transform: translateX(5px);
+      transition: all 0.2s ease;
+      color: $text-dim;
+
+      &:hover {
+        color: $neon-cyan;
+        transform: scale(1.2) translateX(0);
+      }
+    }
+
+    &:hover {
+      background: #1a1a1a;
+      border-color: rgba($neon-cyan, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+      .pill-icon {
+        color: $neon-cyan;
+      }
+
+      .plus-icon {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+// Mobile Responsiveness
+@media (max-width: 768px) {
+  .explore-container {
+    padding: 30px 20px;
+    .module-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
