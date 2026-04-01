@@ -150,19 +150,7 @@ $text-dim: #b3b3b3;
   .sidebar-footer {
     padding: 0.5rem;
     flex-shrink: 0;
-    // position: relative;
-
-    //  .profileDetails {
-    //     background: rgb(71, 70, 70);
-    //     border-radius: 0.4rem;
-    //     position: absolute;
-    //     top: -120%;
-    //     padding: 0.2rem ;
-
-    //     .profileInfo{
-    //       gap: 0.2rem;
-    //     }
-    //   }
+  
 
     .profileInfo {
       padding: 0.3rem 0.5rem;
@@ -211,13 +199,12 @@ $text-dim: #b3b3b3;
 }
 
 .profile-icon {
-  border: 1px solid gray;
+  border:2px solid rgb($aqua-blue , 0.28);
   padding-block: 0.3rem 0.1rem;
   padding-inline: 0.4rem;
   border-radius: 50%;
   background-color: $bg-surface;
   border-radius: 2rem;
-  border: 1px solid rgba($aqua-blue, 0.2);
   background-color: $bg-surface;
   color: $aqua-blue;
 }
@@ -242,6 +229,7 @@ $text-dim: #b3b3b3;
     .profileInfo {
       gap: 0.2rem;
       display: flex;
+      align-items: center;
       font-size: 0.9rem;
       color: rgb(214, 206, 206);
       font-weight: 400;

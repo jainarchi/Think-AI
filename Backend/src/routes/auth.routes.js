@@ -58,7 +58,7 @@ router.post(
 
 /**
  * @route POST /api/auth/forget-password
- * @desc Send password reset email to user's registered email
+ * @desc Send reset password email to user's registered email
  * @access Public
  */
 router.post(
