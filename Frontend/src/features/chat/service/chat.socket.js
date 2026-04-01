@@ -5,7 +5,7 @@ export const initializationSocketConnection = () =>{
 
     const socket = io("http://localhost:3000" , {
         withCredentials : true,
-         transports: ["websocket"], // Use WebSocket transport
+        transports: ["websocket"], 
     })
 
     

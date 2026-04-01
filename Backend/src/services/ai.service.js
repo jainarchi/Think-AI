@@ -40,19 +40,6 @@ const agent = createAgent({
 })
 
 
-console.log(typeof agent.stream) // should print "function"
-console.log(typeof agent.invoke) // should print "function"
-console.log(createAgent.toString().slice(0, 100)) // see what it actually is
-
-
-
-
-
-
-
-
-
-
 export async function generateResponse(messages) {
     return agent.stream(
       
