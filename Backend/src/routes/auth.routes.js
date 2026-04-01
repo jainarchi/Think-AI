@@ -109,7 +109,11 @@ router.get(
   asyncHandler(authControllers.verifyEmail)
 )
 
-
+/**
+ * @route POST /api/auth/logout
+ * @desc user logout 
+ * @access private
+ */
 
 router.post('/logout' , authUser ,  authControllers.logout)
 

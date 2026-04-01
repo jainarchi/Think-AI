@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../validation/auth.schema";
 
+
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,11 +69,14 @@ const Login = () => {
     await handleLogin(data);
   };
 
+
   const resendEmail = async () => {
     setshowResend(false);
     await handleResentVerificationEmail(userEmail);
    
   };
+
+
 
   if (!loading && user) {
     return <Navigate to="/" replace />;

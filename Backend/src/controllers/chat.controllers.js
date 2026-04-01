@@ -35,6 +35,16 @@ async function sendMessage(req, res) {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
+  res.setHeader("X-Accel-Buffering", "no");
+
+  res.flushHeaders && res.flushHeaders();
+
+  let isClientDisconnected = false;
+
+req.on("close", () => {
+  console.log("Client disconnected");
+  isClientDisconnected = true;
+});
 
  // metadata event send to client
   res.write(
@@ -52,7 +62,8 @@ async function sendMessage(req, res) {
     let fullResponse = "";
 
     for await (const [chunk, metadata] of stream) {
-      console.log("metadata:", JSON.stringify(metadata));
+        if (isClientDisconnected) break; 
+      // console.log("metadata:", JSON.stringify(metadata));
       if (
         chunk.content &&
         typeof chunk.content === "string" &&
@@ -62,33 +73,54 @@ async function sendMessage(req, res) {
         res.write(`data: ${JSON.stringify({ text: chunk.content })}\n\n`);
       }
     }
-
-    const aiMessage = await messageModel.create({
-      chat: chatId || chat._id,
-      content: fullResponse,
-      role: "ai",
-    });
+   
+    let aiMessage = null
+   
+    //avoid creating new ai message if client disconnected
+    if(!isClientDisconnected && fullResponse){
+       aiMessage = await messageModel.create({
+          chat: chatId || chat._id,
+          content: fullResponse,
+          role: "ai",
+        })
+      }
 
     res.write(
       `data: ${JSON.stringify({
         type: "done",
         chatId: chatId || chat._id,
         title,
-        aiMessageId: aiMessage._id,
+        aiMessageId: aiMessage?._id,
       })}\n\n`,
     );
     res.end();
+
+
+
+
+
   } catch (error) {
-    console.log("err in generate response", error);
+    // console.log("err in generate response", error);
     res.write(
       `data: ${JSON.stringify({
         type: "error",
-        message: error.message,
+        message: error.message || "Something went wrong",
       })}\n\n`,
     );
     res.end();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * @desc fetch all chat
