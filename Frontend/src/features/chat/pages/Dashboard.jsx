@@ -17,6 +17,7 @@ const Dashboard = () => {
   const currentChatId = useSelector((state) => state.chat.currentChatId);
   const lastMessageRef = useRef(null);
   const isLoading = useSelector((state) => state.chat.isLoading);
+  const user = useSelector((state) => state.auth.user);
 
   const [showThinking, setShowThinking] = useState(false);
 
@@ -53,7 +54,7 @@ const Dashboard = () => {
 
           {currentChatId === null ? (
             <>
-              <h1 className="mainHeading">What can I help you today ?</h1>
+              <h1 className="mainHeading">How can I help you today?</h1>
             </>
           ) : (
             chats[currentChatId]?.messages.map((message, index, arr) => {

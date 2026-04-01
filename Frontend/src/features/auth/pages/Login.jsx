@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
+
+
 import FormInput from "../components/formInput";
 import "../style/auth.scss";
 import { useAuth } from "../hook/useAuth";
 import { useSelector } from "react-redux";
+
+import { clearAuth } from '../auth.slice'
+import { useDispatch } from 'react-redux'
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,8 +16,9 @@ import { loginSchema } from "../validation/auth.schema";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { handleLogin } = useAuth();
-  const { user, loading , error , message} = useSelector((state) => state.auth);
+  const { user, loading , error } = useSelector((state) => state.auth);
 
 
   // react-hook-form + Zod
@@ -25,19 +31,32 @@ const Login = () => {
   });
 
 
+   useEffect(() => {
+    
+      return () => {
+        dispatch(clearAuth()) 
+      }
+    }, [])
+
+    
+
+  useEffect(() => {
+    if (!loading && !error && user) {
+      navigate("/");
+    }
+  }, [loading, user, error]);
+
 
   const onSubmit = async (data) => {
-    await handleLogin(data);
-
-    if (! error) {
-      navigate("/"); 
-    }
+    await handleLogin(data)
   }
 
-  // already logged in
+
   if (!loading && user) {
     return <Navigate to="/" replace />;
   }
+
+ 
 
   return (
     <div className="auth-container">
@@ -84,7 +103,7 @@ const Login = () => {
             </p>
 
             {error && <p className="auth-message">{error}</p>}
-            
+
           </div>
         </div>
       </div>

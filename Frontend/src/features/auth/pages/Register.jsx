@@ -1,18 +1,21 @@
 import React , { useState , useEffect} from 'react'
 import { Link, Navigate } from 'react-router-dom'
+
 import FormInput from '../components/formInput'
 import '../style/auth.scss'
 import { useSelector } from 'react-redux'
 import { useAuth } from '../hook/useAuth'
+import { clearAuth } from '../auth.slice'
+import { useDispatch } from 'react-redux'
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema } from '../validation/auth.schema'
 
 const Register = () => {
+  const dispatch = useDispatch()
   const { handleRegister , handleResentVerificationEmail } = useAuth()
   const { user, loading , error , message} = useSelector(state => state.auth)
-
   const [showResend, setshowResend] = useState(false)
   const [userEmail, setUserEmail] = useState(null)
 
@@ -23,6 +26,14 @@ const Register = () => {
   } = useForm({
     resolver: zodResolver(registerSchema)
   })
+  
+  useEffect(() => {
+  
+    return () => {
+      dispatch(clearAuth()) 
+    }
+  }, [])
+
 
 
    useEffect(() => {
@@ -36,10 +47,8 @@ const Register = () => {
       
        return () => clearTimeout(timer)
      }
-   
    }, [message])
    
-
 
   const onSubmit = async (data) => {
     await handleRegister(data)
@@ -48,7 +57,6 @@ const Register = () => {
  }
 
  const resendEmail = async () =>{
-    console.log(userEmail)
     await handleResentVerificationEmail(userEmail)
     setshowResend(false)
  }

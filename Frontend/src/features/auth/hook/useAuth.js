@@ -56,7 +56,6 @@ export const useAuth = () => {
       const data = await getMe();
       dispatch(setUser(data.user));
     } catch (err) {
-    //   dispatch(setError(err.response?.data?.message || "Failed to fetch user"));
     console.log(err.response?.data?.message)
     } finally {
       dispatch(setLoading(false));
