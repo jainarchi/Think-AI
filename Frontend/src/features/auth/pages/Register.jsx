@@ -1,70 +1,69 @@
-import React , { useState , useEffect} from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
 
-import FormInput from '../components/formInput'
-import '../style/auth.scss'
-import { useSelector } from 'react-redux'
-import { useAuth } from '../hook/useAuth'
-import { clearAuth } from '../auth.slice'
-import { useDispatch } from 'react-redux'
+import FormInput from "../components/formInput";
+import "../style/auth.scss";
+import { useSelector } from "react-redux";
+import { useAuth } from "../hook/useAuth";
+import { clearAuth } from "../auth.slice";
+import { useDispatch } from "react-redux";
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { registerSchema } from '../validation/auth.schema'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema } from "../validation/auth.schema";
 
 const Register = () => {
-  const dispatch = useDispatch()
-  const { handleRegister , handleResentVerificationEmail } = useAuth()
-  const { user, loading , error , message} = useSelector(state => state.auth)
-  const [showResend, setshowResend] = useState(false)
-  const [userEmail, setUserEmail] = useState(null)
+  const dispatch = useDispatch();
+  const { handleRegister, handleResentVerificationEmail } = useAuth();
+  const { user, loading, error, message } = useSelector((state) => state.auth);
+  const [showResend, setshowResend] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    resolver: zodResolver(registerSchema)
-  })
-  
+    resolver: zodResolver(registerSchema),
+  });
+
   useEffect(() => {
-  
     return () => {
-      dispatch(clearAuth()) 
+      dispatch(clearAuth());
+    };
+  }, []);
+
+  useEffect(() => {
+    let timer;
+    setshowResend(false);
+
+    if (message) {
+      timer = setTimeout(() => {
+        setshowResend(true);
+      }, 6000);
+
+      return () => clearTimeout(timer);
     }
-  }, [])
+  }, [message]);
 
 
-
-   useEffect(() => {
-    let timer 
-    setshowResend(false)
-
-     if(message){
-       timer = setTimeout(() =>{
-        setshowResend(true)
-      }, 5000)
-      
-       return () => clearTimeout(timer)
-     }
-   }, [message])
-   
 
   const onSubmit = async (data) => {
-    await handleRegister(data)
-    setUserEmail(data.email)  
- 
- }
+    await handleRegister(data);
+    setUserEmail(data.email);
+  };
 
- const resendEmail = async () =>{
-    await handleResentVerificationEmail(userEmail)
-    setshowResend(false)
- }
+
+  const resendEmail = async () => {
+    const data = await handleResentVerificationEmail(userEmail);
+    console.log(data.message);
+    setshowResend(false);
+  };
 
 
 
   if (!loading && user) {
-    return <Navigate to='/' replace />
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -77,7 +76,6 @@ const Register = () => {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-
             <FormInput
               label="Username"
               type="text"
@@ -102,43 +100,39 @@ const Register = () => {
               error={errors.password?.message}
             />
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary"
               disabled={loading}
             >
-              {loading ? 'Creating account...' : 'Create'}
+              {loading ? "Creating account..." : "Create"}
             </button>
-
           </form>
 
           <div className="auth-footer">
+            <div className="authResponse">
+              {message && <p>{message}</p>}
+
+              {error && <p>{error}</p>}
+
+              {showResend && (
+                <p className=" highlight" onClick={resendEmail}>
+                  Resend Email
+                </p>
+              )}
+            </div>
+
             <p className="auth-footer-text">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <Link to="/login" className="auth-link">
                 Sign in
               </Link>
             </p>
-
-             {message && <p className="auth-message">{message}</p>}
-            
-             {error && <p className="auth-message">{error}</p>}
-
-
-              {showResend && 
-              <p
-              className="auth-message highlight"
-              onClick={resendEmail}
-              >
-                Resend Email
-              </p>}
-
-
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

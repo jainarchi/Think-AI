@@ -1,4 +1,4 @@
-@use '../../../app/style/variables.scss' as *;
+@use "../../../app/style/variables.scss" as *;
 
 * {
   box-sizing: border-box;
@@ -9,38 +9,47 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #4a4a4a , #0a0a0a);
+  background: linear-gradient(135deg, #4a4a4a, #0a0a0a);
   padding: $spacing-lg;
   position: relative;
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50%;
     right: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(0, 168, 157, 0.08) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(0, 168, 157, 0.08) 0%,
+      transparent 70%
+    );
     border-radius: 50%;
     animation: floatBg 6s ease-in-out infinite;
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -20%;
     left: -5%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(6, 214, 160, 0.06) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(6, 214, 160, 0.06) 0%,
+      transparent 70%
+    );
     border-radius: 50%;
     animation: floatBg 8s ease-in-out infinite reverse;
   }
 }
 
 @keyframes floatBg {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   50% {
@@ -142,7 +151,6 @@
   color: #050f0e;
   box-shadow: 0 10px 25px rgba(0, 168, 157, 0.4);
 
-
   &:active {
     transition: 2s all ease-in-out;
     transform: scale(0.7);
@@ -166,7 +174,7 @@
       position: relative;
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -2px;
         left: 0;
@@ -186,23 +194,23 @@
     }
   }
 
-
-  
-  .auth-message{
-    font-size: 0.92rem;
+  .authResponse {
     padding: 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.92rem;
+
+    .highlight {
+      font-weight: 500;
+      color: #06d6a0;
+      cursor: pointer;
+    }
   }
-
-  .highlight{
-    padding: 0rem;
-    font-weight: 500;
-    color: #06d6a0;
-    cursor: pointer;
-  }
-
-
-
 }
+
+
+
 
 // Responsive Design
 @media (max-width: 480px) {
@@ -238,7 +246,11 @@
 // Input focus states with gradient
 .form-input:focus {
   border-color: $primary-color;
-  background: linear-gradient(to bottom, rgba(0, 212, 255, 0.02), rgba(26, 200, 160, 0.02));
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 212, 255, 0.02),
+    rgba(26, 200, 160, 0.02)
+  );
 }
 
 // Smooth transitions for form elements
@@ -247,5 +259,7 @@
 }
 
 .form-group .form-input:focus {
-  box-shadow: inset 0 0 0 1px $primary-color, 0 0 0 3px rgba(0, 212, 255, 0.1);
+  box-shadow:
+    inset 0 0 0 1px $primary-color,
+    0 0 0 3px rgba(0, 212, 255, 0.1);
 }

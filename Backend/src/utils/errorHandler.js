@@ -3,12 +3,14 @@
  * Used for throwing consistent errors throughout the application
  */
 export class ApiError extends Error {
-  constructor(statusCode, message, errors = []) {
+  constructor(statusCode, message, errors = [], errorCode = null) {
     super(message);
     this.statusCode = statusCode;
     this.errors = errors;
     this.success = false;
+    this.errorCode = errorCode;
 
+    
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -96,6 +98,7 @@ export const errorHandler = (err, req, res, next) => {
     message,
     success: false,
     ...(errors.length > 0 && { errors }),
+    ...(err.errorCode && { errorCode: err.errorCode }),
     ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 };

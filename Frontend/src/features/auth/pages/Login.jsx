@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
-
 
 import FormInput from "../components/formInput";
 import "../style/auth.scss";
 import { useAuth } from "../hook/useAuth";
 import { useSelector } from "react-redux";
 
-import { clearAuth } from '../auth.slice'
-import { useDispatch } from 'react-redux'
+import { clearAuth } from "../auth.slice";
+import { useDispatch } from "react-redux";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,10 +15,15 @@ import { loginSchema } from "../validation/auth.schema";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const { handleLogin } = useAuth();
-  const { user, loading , error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { handleLogin, handleResentVerificationEmail } = useAuth();
+  const { user, loading, error, errorCode , message } = useSelector(
+    (state) => state.auth,
+  );
+  const [showResend, setshowResend] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
 
+  console.log(errorCode , userEmail)
 
   // react-hook-form + Zod
   const {
@@ -30,15 +34,15 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuth());
+     
+    };
+  }, []);
 
-   useEffect(() => {
-    
-      return () => {
-        dispatch(clearAuth()) 
-      }
-    }, [])
 
-    
+
 
   useEffect(() => {
     if (!loading && !error && user) {
@@ -47,16 +51,31 @@ const Login = () => {
   }, [loading, user, error]);
 
 
-  const onSubmit = async (data) => {
-    await handleLogin(data)
-  }
+  useEffect(() => {
+    if (errorCode === "UNVERIFIED_USER") {
+      setshowResend(true);
+    }
+    else {
+      setshowResend(false);
+    }
+  }, [errorCode]);
 
+
+
+  const onSubmit = async (data) => {
+    setUserEmail(data.email);
+    await handleLogin(data);
+  };
+
+  const resendEmail = async () => {
+    setshowResend(false);
+    await handleResentVerificationEmail(userEmail);
+   
+  };
 
   if (!loading && user) {
     return <Navigate to="/" replace />;
   }
-
- 
 
   return (
     <div className="auth-container">
@@ -67,14 +86,13 @@ const Login = () => {
             <p className="auth-subtitle">Sign in to your account</p>
           </div>
 
-          {/* ✅ handleSubmit ensures validation runs first */}
           <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
             <FormInput
               label="Email Address"
               type="email"
               placeholder="you@example.com"
               {...register("email")}
-              error={errors.email?.message} 
+              error={errors.email?.message}
             />
 
             <FormInput
@@ -90,11 +108,29 @@ const Login = () => {
               className="btn btn-primary"
               disabled={loading}
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading && !showResend ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
           <div className="auth-footer">
+
+            <div className="authResponse">
+            {error && <p>{error}</p>}
+
+            {showResend && userEmail && ( 
+
+              <p>Account not verified?{" "} 
+              <span className="highlight" onClick={resendEmail}>
+                 send email
+              </span>
+              </p>
+            )}
+
+            {message && <p >{message}</p> }
+
+            </div>
+           
+
             <p className="auth-footer-text">
               Don't have an account?{" "}
               <Link to="/register" className="auth-link">
@@ -102,8 +138,7 @@ const Login = () => {
               </Link>
             </p>
 
-            {error && <p className="auth-message">{error}</p>}
-
+          
           </div>
         </div>
       </div>

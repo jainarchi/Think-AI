@@ -7,7 +7,7 @@ import {
   resentVerificationEmail,
  
 } from "../services/auth.api";
-import { setUser, setLoading, setError, setMessage } from "../auth.slice";
+import { setUser, setLoading, setError, setMessage , setErrorCode } from "../auth.slice";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,10 @@ export const useAuth = () => {
     } catch (err) {
         const error = err.response?.data?.message || "Login failed"
         dispatch(setError(error));
-       
+
+         const errorCode = err.response?.data?.errorCode || null;
+         dispatch(setErrorCode(errorCode))
+         console.log(errorCode)
       
     } finally {
       dispatch(setLoading(false));
