@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import Navbar from '../../features/shared/components/Navbar.jsx'
 import Sidebar from '../../features/shared/components/Sidebar.jsx'
-import '../style/MainLayout.scss'
+import '../style/mainLayout.scss'
 import { Outlet } from 'react-router-dom'
 
 
