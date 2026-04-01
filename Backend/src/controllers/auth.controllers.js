@@ -7,20 +7,17 @@ import {
   createNotFoundError,
   createUnauthorizedError,
 } from "../utils/errorHandler.js";
-import redis from '../config/cache.js'
-
-
+import redis from "../config/cache.js";
 
 /**
  * send verification email on user's email address
  * call from register and resend email controller
  */
 
-async function sendVerificationEmail(username , email) {
-
+async function sendVerificationEmail(username, email) {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: "1h",
-  })
+  });
 
   await sendEmail({
     to: email,
@@ -29,13 +26,12 @@ async function sendVerificationEmail(username , email) {
         <p>Hi ${username},</p>
         <p>Thanks for registering at <strong>Infra AI</strong>. We're excited to have you on board!</p>
         <p>Please verify your email address by clicking the link below:</p>
-        <a href="http://localhost:3000/api/auth/verify-email?token=${token}">Verify Email</a>
+        <a href="${process.env.BACKEND_URL}/api/auth/verify-email?token=${token}">Verify Email</a>
         <p>If you did not create an account, please ignore this email.</p>
         <p>Best regards,</p>
         <p>The Infra AI Team</p>
         `,
   });
-    
 }
 
 /**
@@ -43,12 +39,9 @@ async function sendVerificationEmail(username , email) {
  */
 
 async function sendResetPasswordEmail(username, email) {
-
-  const token = jwt.sign(
-    { email },
-    process.env.JWT_SECRET,
-    { expiresIn: "15m" }
-  );
+  const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+    expiresIn: "15m",
+  });
 
   await sendEmail({
     to: email,
@@ -58,7 +51,7 @@ async function sendResetPasswordEmail(username, email) {
       <p>You requested to reset your password.</p>
       <p>Click the link below to set a new password:</p>
       
-      <a href="http://localhost:5173/reset-password?token=${token}">
+      <a href="${process.env.CLIENT_URL}/reset-password?token=${token}">
         Reset Password
       </a>
 
@@ -66,10 +59,9 @@ async function sendResetPasswordEmail(username, email) {
       <p>If you did not request this, please ignore this email.</p>
 
       <p>Infra AI Team</p>
-    `
+    `,
   });
 }
-
 
 /**
  * @route POST api/auth/register
@@ -104,11 +96,9 @@ async function register(req, res) {
   res.status(201).json({
     message:
       "Registered successfully. Please check your email to verify your account",
-      success: true,
+    success: true,
   });
 }
-
-
 
 /**
  * @route POST api/auth/resend-verification
@@ -130,7 +120,7 @@ async function resendVerificationEmail(req, res) {
         field: "email",
         message: "This email address is already verified",
       },
-    ])
+    ]);
   }
 
   await sendVerificationEmail(user.username, email);
@@ -141,12 +131,9 @@ async function resendVerificationEmail(req, res) {
   });
 }
 
-
-
-
 /**
  * @route GET  api/auth/verify-email
- * @desc this controller call when user click on verification link 
+ * @desc this controller call when user click on verification link
  * verify token then set user verfied status to true
  * show button go to login
  * @access public
@@ -193,7 +180,7 @@ async function verifyEmail(req, res) {
     <h1 style="color: #4CAF50;">Email Verified Successfully!</h1>
     <p style="font-size: 18px;">
     Your email has been verified. You can now log in to your account.</p>
-    <a href="http://localhost:3000/login" 
+    <a href="${process.env.CLIENT_URL}/login" 
     style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Go to Login</a>
   </div>
   `;
@@ -201,14 +188,12 @@ async function verifyEmail(req, res) {
   res.send(html);
 }
 
-
 /**
  * @route /api/auth/login
  * @desc user logged in our account
  * @access public
  * @body { email , password }
  */
-
 
 async function login(req, res) {
   const { email, password } = req.body;
@@ -225,22 +210,29 @@ async function login(req, res) {
   }
 
   if (!user.verified) {
-     await sendVerificationEmail(user.username, user.email)
-
-    throw new ApiError(403, "Please verify your account before logging, verification link sent to your email.", [
-      {
-        field: "email",
-        message: "Email not verified",
-      },
-    ])
-
+    throw new ApiError(
+      403,
+      "Please verify your account.",
+      [
+        {
+          field: "email",
+          message: "Email not verified",
+        },
+      ],
+      "UNVERIFIED_USER"
+    );
   }
+
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
   user.password = undefined;
 
   res.status(200).json({
@@ -249,8 +241,6 @@ async function login(req, res) {
     user,
   });
 }
-
-
 
 /**
  * @route POST api/auth/forget-password
@@ -264,23 +254,21 @@ async function forgetPassword(req, res) {
   const user = await userModel.findOne({ email });
 
   if (!user) {
-    throw createNotFoundError("User with this email")
+    throw createNotFoundError("User with this email");
   }
 
   // sending email to reset password
-  await sendResetPasswordEmail(user.username, user.email)
+  await sendResetPasswordEmail(user.username, user.email);
 
   res.status(200).json({
     message: "Password reset email sent successfully",
     success: true,
-  })
+  });
 }
-
-
 
 /**
  * @route POST api/auth/forget-password
- * @desc  user click on link to reset password after enter new password 
+ * @desc  user click on link to reset password after enter new password
  * @access public
  * @query {token}
  */
@@ -302,14 +290,12 @@ async function resetPassword(req, res) {
         field: "token",
         message: err.message,
       },
-    ])
+    ]);
   }
 
   const user = await userModel.findOne({
     email: decoded.email,
-  })
-
-   
+  });
 
   if (!user) {
     throw createNotFoundError("User");
@@ -323,10 +309,6 @@ async function resetPassword(req, res) {
     success: true,
   });
 }
-
-
-
-
 
 /**
  * @route Get /api/auth/get-me
@@ -350,28 +332,24 @@ async function getMe(req, res) {
   });
 }
 
+async function logout(req, res) {
+  try {
+    const token = req.cookies.token;
+    res.clearCookie("token");
 
-async function logout(req ,res) {
+    await redis.set(token, "blacklisted", "EX", 60 * 60 * 24 * 7);
 
-  const token = req.cookies.token
-  res.clearCookie("token")
-
-  await redis.set(token, "blacklisted" , "EX", 60 * 60 * 24 * 7)
-
-  res.status(200)
-  .json({
-    message : 'successfully logout',
-    success : true 
-  })
-
+    res.status(200).json({
+      message: "successfully logout",
+      success: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+      success: false,
+    });
+  }
 }
-
-
-
-
-
-
-
 
 export default {
   register,
@@ -381,5 +359,5 @@ export default {
   resendVerificationEmail,
   forgetPassword,
   resetPassword,
-  logout
+  logout,
 };

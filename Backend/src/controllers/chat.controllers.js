@@ -59,7 +59,6 @@ async function sendMessage(req, res) {
         metadata?.langgraph_node === "model_request"
       ) {
         fullResponse += chunk.content;
-        console.log("chunk bheja:", chunk.content);
         res.write(`data: ${JSON.stringify({ text: chunk.content })}\n\n`);
       }
     }
