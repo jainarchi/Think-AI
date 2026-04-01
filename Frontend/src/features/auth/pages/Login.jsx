@@ -12,9 +12,8 @@ import { loginSchema } from "../validation/auth.schema";
 const Login = () => {
   const navigate = useNavigate();
   const { handleLogin } = useAuth();
-  const { user, loading } = useSelector((state) => state.auth);
+  const { user, loading , error , message} = useSelector((state) => state.auth);
 
-  const [msg, setMsg] = useState(null);
 
   // react-hook-form + Zod
   const {
@@ -28,15 +27,12 @@ const Login = () => {
 
 
   const onSubmit = async (data) => {
-    setMsg(null)
-    const res = await handleLogin(data);
+    await handleLogin(data);
 
-    if (res.success) {
+    if (! error) {
       navigate("/"); 
-    } else {
-      setMsg(res.message);
     }
-  };
+  }
 
   // already logged in
   if (!loading && user) {
@@ -87,7 +83,8 @@ const Login = () => {
               </Link>
             </p>
 
-            {msg && <p className="auth-message">{msg}</p>}
+            {error && <p className="auth-message">{error}</p>}
+            
           </div>
         </div>
       </div>

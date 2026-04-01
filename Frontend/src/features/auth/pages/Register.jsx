@@ -1,4 +1,4 @@
-import React , { useState } from 'react'
+import React , { useState , useEffect} from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import FormInput from '../components/formInput'
 import '../style/auth.scss'
@@ -10,9 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema } from '../validation/auth.schema'
 
 const Register = () => {
-  const { handleRegister } = useAuth()
-  const { user, loading } = useSelector(state => state.auth)
-  const [msg, setMsg] = useState(null)
+  const { handleRegister , handleResentVerificationEmail } = useAuth()
+  const { user, loading , error , message} = useSelector(state => state.auth)
+
+  const [showResend, setshowResend] = useState(false)
+  const [userEmail, setUserEmail] = useState(null)
 
   const {
     register,
@@ -23,11 +25,34 @@ const Register = () => {
   })
 
 
+   useEffect(() => {
+    let timer 
+    setshowResend(false)
+
+     if(message){
+       timer = setTimeout(() =>{
+        setshowResend(true)
+      }, 5000)
+      
+       return () => clearTimeout(timer)
+     }
+   
+   }, [message])
+   
+
+
   const onSubmit = async (data) => {
-    const res = await handleRegister(data)
-    setMsg(res.message)   
+    await handleRegister(data)
+    setUserEmail(data.email)  
  
  }
+
+ const resendEmail = async () =>{
+    console.log(userEmail)
+    await handleResentVerificationEmail(userEmail)
+    setshowResend(false)
+ }
+
 
 
   if (!loading && user) {
@@ -39,7 +64,7 @@ const Register = () => {
       <div className="auth-wrapper">
         <div className="auth-card">
           <div className="auth-header">
-            <h1 className="auth-title">InfraCore AI</h1>
+            <h1 className="auth-title">Infra AI</h1>
             <p className="auth-subtitle">Create Account</p>
           </div>
 
@@ -87,7 +112,18 @@ const Register = () => {
               </Link>
             </p>
 
-            {msg && <p className="auth-message">{msg}</p>}
+             {message && <p className="auth-message">{message}</p>}
+            
+             {error && <p className="auth-message">{error}</p>}
+
+
+              {showResend && 
+              <p
+              className="auth-message highlight"
+              onClick={resendEmail}
+              >
+                Resend Email
+              </p>}
 
 
           </div>

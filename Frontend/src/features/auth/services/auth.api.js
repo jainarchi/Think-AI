@@ -45,7 +45,7 @@ export async function resentVerificationEmail({ email }) {
 
     const response = await api.post('/resend-verification' , {email})
     return response.data
-    // msg or err
+    
     
 }
 

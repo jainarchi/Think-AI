@@ -24,10 +24,10 @@ async function sendVerificationEmail(username , email) {
 
   await sendEmail({
     to: email,
-    subject: "Welcome to InfraCore AI",
+    subject: "Welcome to Infra AI",
     html: `
         <p>Hi ${username},</p>
-        <p>Thanks for registering at <strong>InfraCore AI</strong>. We're excited to have you on board!</p>
+        <p>Thanks for registering at <strong>Infra AI</strong>. We're excited to have you on board!</p>
         <p>Please verify your email address by clicking the link below:</p>
         <a href="http://localhost:3000/api/auth/verify-email?token=${token}">Verify Email</a>
         <p>If you did not create an account, please ignore this email.</p>
@@ -103,8 +103,8 @@ async function register(req, res) {
 
   res.status(201).json({
     message:
-      "Register successfully. Please verify your account by clicking link send it to your emailId.",
-    success: true,
+      "Registered successfully. Please check your email to verify your account",
+      success: true,
   });
 }
 
@@ -121,22 +121,22 @@ async function resendVerificationEmail(req, res) {
   const user = await userModel.findOne({ email });
 
   if (!user) {
-    throw createNotFoundError("User with this email");
+    throw createNotFoundError("user not found");
   }
 
   if (user.verified) {
-    throw new ApiError(400, "Email is already verified", [
+    throw new ApiError(400, "Account already verified. Please login.", [
       {
         field: "email",
         message: "This email address is already verified",
       },
-    ]);
+    ])
   }
 
   await sendVerificationEmail(user.username, email);
 
   res.status(200).json({
-    message: "Verification email resent successfully",
+    message: "Verification email resend successfully",
     success: true,
   });
 }
@@ -221,16 +221,19 @@ async function login(req, res) {
   const isValidPassword = await user.comparePassword(password);
 
   if (!isValidPassword) {
-    throw createUnauthorizedError("Invalid credential");
+    throw createUnauthorizedError("Invalid email or password");
   }
 
   if (!user.verified) {
-    throw new ApiError(403, "Please verify your email before logging", [
+     await sendVerificationEmail(user.username, user.email)
+
+    throw new ApiError(403, "Please verify your account before logging, verification link sent to your email.", [
       {
         field: "email",
         message: "Email not verified",
       },
-    ]);
+    ])
+
   }
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
