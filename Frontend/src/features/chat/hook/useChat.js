@@ -148,7 +148,7 @@ export const useChat = () => {
 
   const handleDeleteChat = async (chatId) => {
     const data = await deleteChat({ chatId });
-    console.log(data.message);
+    // console.log(data.message);
     dispatch(delete_Chat(chatId));
   };
 
@@ -156,7 +156,7 @@ export const useChat = () => {
     const data = await editChatTitle({ chatId, newTitle });
     
     dispatch(updateChatTitle({ chatId, newTitle }));
-    console.log(data.message);
+    // console.log(data.message);
   };
 
   const handleNewChat = () => {

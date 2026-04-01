@@ -5,11 +5,9 @@ import {
   getMe,
   logout,
   resentVerificationEmail,
-  forgetPassword,
-  resetPassword,
+ 
 } from "../services/auth.api";
 import { setUser, setLoading, setError, setMessage } from "../auth.slice";
-import { success } from "zod";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -36,14 +34,13 @@ export const useAuth = () => {
     try {
       dispatch(setLoading(true));
       const data = await login({ email, password });
-      console.log(data)
       dispatch(setUser(data.user));
 
      
     } catch (err) {
         const error = err.response?.data?.message || "Login failed"
         dispatch(setError(error));
-        console.log(error)
+       
       
     } finally {
       dispatch(setLoading(false));
@@ -56,7 +53,7 @@ export const useAuth = () => {
       const data = await getMe();
       dispatch(setUser(data.user));
     } catch (err) {
-    console.log(err.response?.data?.message)
+    // console.log(err.response?.data?.message)
     } finally {
       dispatch(setLoading(false));
     }
@@ -80,13 +77,12 @@ export const useAuth = () => {
     try {
       dispatch(setLoading(true));
       const data = await resentVerificationEmail({ email });
-      console.log(data.message);
       dispatch(setMessage(data.message));
 
     } catch (err) {
 
       const error =
-        err.response?.data?.message || "Failed to resent verification email";
+      err.response?.data?.message || "Failed to resent verification email";
       dispatch(setError(error));
       
     } finally {
