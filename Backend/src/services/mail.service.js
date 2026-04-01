@@ -4,7 +4,10 @@ import nodemailer from 'nodemailer'
 
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',  // manual SMTP, in place of service gmail
+  port: 465,               // Gmail ka secure port
+  secure: true,            // SSL use karo
+  family: 4,               // use IPv4 
   auth: {
     type: 'OAuth2',
     user: process.env.GOOGLE_USER,
@@ -27,7 +30,7 @@ transporter.verify()
 
 export async function sendEmail({to , subject , html}) {
     const mailOptions ={
-        form : process.env.GOOGLE_USER,
+        from : process.env.GOOGLE_USER,
         to,
         subject,
         html 
