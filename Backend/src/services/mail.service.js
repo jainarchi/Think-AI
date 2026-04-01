@@ -5,8 +5,8 @@ import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',  // manual SMTP, in place of service gmail
-  port: 465,               // Gmail ka secure port
-  secure: true,            // SSL use karo
+  port: 587,               // manual port then secure by STARTTLS
+  secure: false,            
   family: 4,               // use IPv4 
   auth: {
     type: 'OAuth2',
