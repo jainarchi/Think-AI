@@ -9,9 +9,9 @@ export const initializationSocketConnection = () =>{
     })
 
     
-    socket.on("connect" , () =>{
-        console.log("connected to Socket.IO server")
-    })
+    // socket.on("connect" , () =>{
+    //     console.log("connected to Socket.IO server")
+    // })
 
 
 

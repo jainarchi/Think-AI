@@ -16,7 +16,6 @@ export const useAuth = () => {
     try {
       dispatch(setLoading(true))
       const data = await register({ email, username, password });
-      console.log(data.message)
       dispatch(setMessage(data.message))
 
 

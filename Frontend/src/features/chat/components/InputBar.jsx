@@ -24,9 +24,10 @@ const InputBar = () => {
     }
   }, [selectPrompt, handleClearSelectPrompt]);
 
+
+
   const handleSubmitMessage = (e) => {
     e.preventDefault();
-    console.log(chatInput);
 
     const trimmedMessage = chatInput.trim();
     if (!trimmedMessage) {
@@ -39,6 +40,11 @@ const InputBar = () => {
     });
 
     setchatInput("");
+
+     if (inpRef.current) {
+    inpRef.current.style.height = "auto"; 
+    }
+    
   };
 
   const handleChange = (e) => {
@@ -51,6 +57,8 @@ const InputBar = () => {
     inp.style.height = inp.scrollHeight + "px"; // grow
 
   };
+
+  
 
   const inputOptionToggle = () => {
     setShowInputOptions(!showInputOptions);

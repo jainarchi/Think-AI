@@ -37,7 +37,6 @@ export const useChat = () => {
   const handleSendMessage = async ({ message, chatId }) => {
     
     dispatch(setLoading(true));
-    console.log("thinking...");
 
     if (chatId) {
       dispatch(addNewMessage({ 

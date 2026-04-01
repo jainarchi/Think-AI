@@ -203,7 +203,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           <div
             className={`profileDetails ${showProfileInfo && "display-block"}`}  
           >
-            <div className="profileInfo" onClick={logoutUser}>
+            <div className="profileInfo">
               <div className="logout-icon">
                 <RiMailLine size={"16px"} />
               </div>
@@ -259,7 +259,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             className={`profileDetails ${showProfileInfo && "display-block"}`}
            
           >
-            <div className="profileInfo" onClick={logoutUser}>
+            <div className="profileInfo">
               <div className="logout-icon">
                 <RiMailLine size={"16px"} />
               </div>

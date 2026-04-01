@@ -25,7 +25,6 @@ const Login = () => {
   const [showResend, setshowResend] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
 
-  console.log(errorCode , userEmail)
 
   // react-hook-form + Zod
   const {
