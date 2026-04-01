@@ -45,7 +45,7 @@ export const useChat = () => {
         role: "user" }));
     }
 
-    const response = await fetch("http://localhost:3000/api/chats/message", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chats/message`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
