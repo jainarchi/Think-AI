@@ -21,7 +21,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [showOptions, setShowOptions] = useState(null);
   const [showProfileInfo, setShowProfileInfo] = useState(false)
 
-  console.log(showProfileInfo)
 
   const [title, setTitle] = useState("");
   const [titleChatId, setTitleChatId] = useState(null);
