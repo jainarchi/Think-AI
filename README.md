@@ -106,6 +106,12 @@ InfraAI/
 
 ---
 
+## ⚠️ Note
+- Email verification is disabled in production due to SMTP ports being blocked on Render's free hosting plan. Users are automatically verified upon registration in production.
+- In local development, email verification works normally via Nodemailer - verification emails are sent to registered email address.
+
+---
+
 ## Key Technologies Explained
 
 ### Real-time Streaming

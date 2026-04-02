@@ -90,14 +90,6 @@ async function register(req, res) {
     password,
   });
 
-  // // link send for verifitcation
-  // await sendVerificationEmail(username, email);
-
-  //   res.status(201).json({
-  //   message:
-  //     "Registered successfully. Please check your email to verify your account",
-  //   success: true,
-  // });
 
   if (process.env.NODE_ENV === "production") {
     user.verified = true;
@@ -112,7 +104,6 @@ async function register(req, res) {
     : "Registered successfully. Please check your email to verify your account",
   success: true,
 });
-
 
 }
 
