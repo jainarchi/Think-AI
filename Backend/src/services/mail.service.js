@@ -1,47 +1,20 @@
 import "dotenv/config"
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend';
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 
+export async function sendEmail({ to, subject, html }) {
+  const { data, error } = await resend.emails.send({
+    from:'InfraAI <onboarding@resend.dev>',
+    to,
+    subject,
+    html,
+  });
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',  // manual SMTP, in place of service gmail
-  port: 587,               // manual port then secure by STARTTLS
-  secure: false,            
-  family: 4,               // use IPv4 
-  tls: {
-    rejectUnauthorized: false
-  },
-  auth: {
-    type: 'OAuth2',
-    user: process.env.GOOGLE_USER,
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-  },
-})
+  if (error) {
+    console.log("Email error:", error);
+    throw new Error(error.message);
+  }
 
-
-
-// Verify the connection configuration
-transporter.verify()
-.then(() => {console.log("Email transporter is ready to send emails")})
-.catch((err) =>{
-  console.log("Emial transporter verification failed:" , err)
-})
-
-
-
-export async function sendEmail({to , subject , html}) {
-    const mailOptions ={
-        from : process.env.GOOGLE_USER,
-        to,
-        subject,
-        html 
-    }
-
-    
-
-    const details = await transporter.sendMail(mailOptions)
-    console.log("Email sent:" , details)
-    
+  console.log("Email sent:", data);
 }
