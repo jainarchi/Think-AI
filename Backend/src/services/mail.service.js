@@ -8,6 +8,9 @@ const transporter = nodemailer.createTransport({
   port: 587,               // manual port then secure by STARTTLS
   secure: false,            
   family: 4,               // use IPv4 
+  tls: {
+    rejectUnauthorized: false
+  },
   auth: {
     type: 'OAuth2',
     user: process.env.GOOGLE_USER,
