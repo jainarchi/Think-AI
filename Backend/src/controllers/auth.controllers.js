@@ -177,11 +177,10 @@ async function verifyEmail(req, res) {
   // show page for email successfully verified
   const html = `
   <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-    <h1 style="color: #4CAF50;">Email Verified Successfully!</h1>
-    <p style="font-size: 18px;">
+    <h2 style="color: #4CAF50;">Email Verified Successfully!</h2>
+    <p style="font-size: 16px;">
     Your email has been verified. You can now log in to your account.</p>
-    <a href="${process.env.CLIENT_URL}/login" 
-    style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Go to Login</a>
+    
   </div>
   `;
 
