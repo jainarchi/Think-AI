@@ -90,14 +90,30 @@ async function register(req, res) {
     password,
   });
 
-  // link send for verifitcation
-  await sendVerificationEmail(username, email);
+  // // link send for verifitcation
+  // await sendVerificationEmail(username, email);
+
+  //   res.status(201).json({
+  //   message:
+  //     "Registered successfully. Please check your email to verify your account",
+  //   success: true,
+  // });
+
+  if (process.env.NODE_ENV === "production") {
+    user.verified = true;
+    await user.save();
+  } else {
+    await sendVerificationEmail(username, email);
+  }
 
   res.status(201).json({
-    message:
-      "Registered successfully. Please check your email to verify your account",
-    success: true,
-  });
+  message: process.env.NODE_ENV === 'production' 
+    ? "Registered successfully. You can now login."
+    : "Registered successfully. Please check your email to verify your account",
+  success: true,
+});
+
+
 }
 
 /**
@@ -218,10 +234,9 @@ async function login(req, res) {
           message: "Email not verified",
         },
       ],
-      "UNVERIFIED_USER"
+      "UNVERIFIED_USER",
     );
   }
-
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
