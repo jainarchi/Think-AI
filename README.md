@@ -1,6 +1,8 @@
 # InfraAI
 
-InfraAI is a modern AI-powered chat application that enables users to have intelligent conversations with multiple AI models. It combines real-time messaging with internet search capabilities, allowing the AI to provide up-to-date responses based on the latest information from the web.
+InfraAI is a modern AI-powered chat application that enables users to have intelligent conversations with AI models. It combines real-time messaging with internet search capabilities, allowing the AI to provide up-to-date responses based on the latest information from the web.
+
+🚀 **Live Demo:** [https://infra-ai-psi.vercel.app](https://infra-ai-psi.vercel.app)
 
 ---
 
@@ -36,20 +38,20 @@ InfraAI is a modern AI-powered chat application that enables users to have intel
 - **Real-time:** Socket.io
 - **Authentication:** JWT (JSON Web Tokens)
 - **Email:** Nodemailer with Gmail OAuth2
+- **Token Blacklisting:** Redis
 
 ### AI & Services
 - **AI Models:** 
-  - Google Generative AI (Gemini 3.1 Flash)
+  - Google Generative AI (Gemini)
   - Mistral AI
 - **AI Framework:** LangChain
 - **Web Search:** Tavily API
-- **Caching:** Redis (for token blacklisting)
 
 ---
 
 ## Project Structure
 
-```
+\`\`\`
 InfraAI/
 ├── Backend/                    # Node.js Express server
 │   ├── src/
@@ -76,18 +78,18 @@ InfraAI/
 │   ├── vite.config.js
 │   └── package.json
 │
-└── README.md                   # This file
-```
+└── README.md
+\`\`\`
 
+---
 
 ## How It Works
 
 ### User Journey
 
-1. **Sign Up & Verification**
+1. **Sign Up**
    - User creates an account with username, email, and password
-   - Verification email is sent to the user
-   - User verifies email to activate the account
+   - Account is activated automatically in production
 
 2. **Login**
    - User logs in with email and password
@@ -103,12 +105,6 @@ InfraAI/
 4. **Save Prompts**
    - Users can save useful prompts for later reuse
    - Saved prompts appear in the "Personal Vault" section
-
----
-
-## ⚠️ Note
-- Email verification is disabled in production due to SMTP ports being blocked on Render's free hosting plan. Users are automatically verified upon registration in production.
-- In local development, email verification works normally via Nodemailer - verification emails are sent to registered email address.
 
 ---
 
@@ -141,40 +137,35 @@ The frontend is built using a **4-layer architecture** to ensure scalability, ma
 - Pure, reusable UI components
 - Handles only UI rendering and user interactions
 - No business logic or API calls
-- Receives data via props and emits events
-- Example: `components/` folder with presentational components
 
 #### **Layer 2: Container/Smart Layer (Pages & Hooks)**
 - Page components that orchestrate data flow
 - Custom React hooks that manage component logic
 - Connects Redux state to UI components
-- Handles user interactions and state updates
-- Keeps pages clean and logic separated
 
 #### **Layer 3: State Management Layer (Redux)**
-- Redux slices for centralized state management 
+- Redux slices for centralized state management
 - Global state for authentication, chat, and saved prompts
 - Predictable state updates through actions and reducers
-- Easy debugging and time-travel debugging capabilities
 
 #### **Layer 4: Services & Business Logic Layer**
-- API services for backend communication 
-- Real-time socket services 
+- API services for backend communication
+- Real-time socket services
 - Input validators and schemas
-- Utility functions and helpers 
 - Separates data fetching from UI logic
 
-### Benefits of This Architecture
-✅ **Feature-Based Organization** - Each feature (auth, chat, shared) is self-contained with its own components, services, and state  
-✅ **Scalability** - Easy to add new features without affecting existing code  
-✅ **Maintainability** - Clear separation of concerns makes debugging easier  
-✅ **Testability** - Each layer can be tested independently  
-✅ **Reusability** - Components and hooks can be reused across features  
-✅ **Performance** - Redux efficiently manages state updates
+---
 
+## ⚠️ Known Limitations
+
+- Email verification is disabled in production due to SMTP ports being blocked on Render's free hosting plan. Users are automatically verified upon registration.
+- In local development, email verification works normally via Nodemailer.
+
+---
 
 ## Future Improvements
 
+- [ ] Custom domain setup for email verification
 - [ ] User profile customization
 - [ ] Chat export (PDF, TXT)
 - [ ] Conversation sharing with others
@@ -182,5 +173,4 @@ The frontend is built using a **4-layer architecture** to ensure scalability, ma
 - [ ] Mobile app version
 - [ ] Advanced search filters
 - [ ] User analytics dashboard
-- [ ] Conversation branching feature
 - [ ] Integration with more AI models
